@@ -42,23 +42,23 @@ jobs:
       - name: Create commit
         run: |
           echo "Update go.mod and go.sum to ${{ github.repository }}@${{ needs.get-tag.outputs.tag }}" >> /tmp/commit-message
-      - name: Checkout networkservicemesh/${{ matrix.repository }}
+      - name: Checkout ljkiraly/${{ matrix.repository }}
         uses: actions/checkout@v4
         with:
-          path: networkservicemesh/${{ matrix.repository }}
-          repository: networkservicemesh/${{ matrix.repository }}
+          path: ljkiraly/${{ matrix.repository }}
+          repository: ljkiraly/${{ matrix.repository }}
           token: ${{ secrets.token }}
       - uses: actions/setup-go@v5
         with:
           go-version: 1.23.3
       - name: Update ${{ matrix.repository }} locally
-        working-directory: networkservicemesh/${{ matrix.repository }}
+        working-directory: ljkiraly/${{ matrix.repository }}
         run: |
-          GOPRIVATE=github.com/networkservicemesh go get -u github.com/${{ github.repository }}@${{ needs.get-tag.outputs.tag }}
+          GOPRIVATE=github.com/ljkiraly go get -u github.com/${{ github.repository }}@${{ needs.get-tag.outputs.tag }}
           go mod tidy
           git diff
       - name: Push update to the ${{ matrix.repository }}
-        working-directory: networkservicemesh/${{ matrix.repository }}
+        working-directory: ljkiraly/${{ matrix.repository }}
         run: |
           echo Starting to update repositotry ${{ matrix.repository }}
           git config --global user.email "nsmbot@networkservicmesh.io"
