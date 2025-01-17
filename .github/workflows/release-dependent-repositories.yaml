@@ -56,6 +56,16 @@ jobs:
         run: |
           GOPRIVATE=github.com/ljkiraly go get -u github.com/${{ github.repository }}@${{ needs.get-tag.outputs.tag }}
           go mod tidy
+          GOPRIVATE=github.com/ljkiraly go get -u github.com/ljkiraly/sdk-ovs@${{ needs.get-tag.outputs.tag }}
+          go mod tidy
+          GOPRIVATE=github.com/ljkiraly go get -u github.com/ljkiraly/sdk-sriov@${{ needs.get-tag.outputs.tag }}
+          go mod tidy
+          GOPRIVATE=github.com/ljkiraly go get -u github.com/ljkiraly/sdk-kernel@${{ needs.get-tag.outputs.tag }}
+          go mod tidy
+          GOPRIVATE=github.com/ljkiraly go get -u github.com/ljkiraly/sdk-k8s@${{ needs.get-tag.outputs.tag }}
+          go mod tidy
+          GOPRIVATE=github.com/ljkiraly go get -u github.com/ljkiraly/sdk-vpp@${{ needs.get-tag.outputs.tag }}
+          go mod tidy
           git diff
       - name: Push update to the ${{ matrix.repository }}
         working-directory: ljkiraly/${{ matrix.repository }}
