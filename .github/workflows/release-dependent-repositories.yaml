@@ -53,6 +53,7 @@ jobs:
           go-version: 1.23.3
       - name: Update ${{ matrix.repository }} locally
         working-directory: ljkiraly/${{ matrix.repository }}
+        continue-on-error: true
         run: |
           GOPRIVATE=github.com/ljkiraly go get -u github.com/${{ github.repository }}@${{ needs.get-tag.outputs.tag }}
           go mod tidy
