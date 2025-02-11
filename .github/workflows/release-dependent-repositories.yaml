@@ -55,15 +55,16 @@ jobs:
         working-directory: ljkiraly/${{ matrix.repository }}
         continue-on-error: true
         run: |
-          GOPRIVATE=github.com/ljkiraly go get -u github.com/${{ github.repository }}@${{ needs.get-tag.outputs.tag }} || echo "go get failed ${{ github.repository }}@${{ needs.get-tag.outputs.tag }}"
-            GOPRIVATE=github.com/ljkiraly go get -u github.com/ljkiraly/sdk-kernel@${{ needs.get-tag.outputs.tag }} || echo "go get failed sdk-kernel@${{ needs.get-tag.outputs.tag }}"
-            GOPRIVATE=github.com/ljkiraly go get -u github.com/ljkiraly/sdk-k8s@${{ needs.get-tag.outputs.tag }} || echo "go get failed sdk-k8s@${{ needs.get-tag.outputs.tag }}"
-            GOPRIVATE=github.com/ljkiraly go get -u github.com/ljkiraly/sdk-sriov@${{ needs.get-tag.outputs.tag }} || echo "go get failed sdk-sriov@${{ needs.get-tag.outputs.tag }}"
-            GOPRIVATE=github.com/ljkiraly go get -u github.com/ljkiraly/sdk-vpp@${{ needs.get-tag.outputs.tag }} || echo "go get failed sdk-vpp@${{ needs.get-tag.outputs.tag }}"
-            GOPRIVATE=github.com/ljkiraly go get -u github.com/ljkiraly/sdk-ovs@${{ needs.get-tag.outputs.tag }} || echo "go get failed sdk-ovs@${{ needs.get-tag.outputs.tag }}"
-            go mod tidy;
-            git diff
-          }
+          for dep in github.com/${{ github.repository }} \
+                     github.com/ljkiraly/sdk-kernel \
+                     github.com/ljkiraly/sdk-k8s \
+                     github.com/ljkiraly/sdk-sriov \
+                     github.com/ljkiraly/sdk-vpp \
+                     github.com/ljkiraly/sdk-ovs; do
+            GOPRIVATE=github.com/ljkiraly go get -u $dep@${{ needs.get-tag.outputs.tag }} || true
+          done
+          go mod tidy;
+          git diff
       - name: Push update to the ${{ matrix.repository }}
         working-directory: ljkiraly/${{ matrix.repository }}
         run: |
