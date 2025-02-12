@@ -16,7 +16,7 @@ jobs:
           repository: ${{ github.repository }}
           token: ${{ secrets.token }}
       - name: Find merged PR
-        uses: jwalton/gh-find-current-pr@v1.0.2
+        uses: jwalton/gh-find-current-pr@v1.3.3
         id: findPr
         with:
           sha: ${{ github.sha }}
