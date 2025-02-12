@@ -32,7 +32,7 @@ jobs:
           echo "$LOG_MSG" >> /tmp/commit-message
           echo "Commit Message:"
           cat /tmp/commit-message
-      - uses: benjlevesque/short-sha@v1.2
+      - uses: benjlevesque/short-sha@v3.0
         id: short-sha
         with:
           length: 7
